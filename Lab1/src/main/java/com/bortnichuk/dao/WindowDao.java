@@ -17,4 +17,8 @@ public class WindowDao {
         windowList.add(window);
     }
 
+    public void deleteWindow(Window window){
+        windowList.remove(window);
+    }
+
 }

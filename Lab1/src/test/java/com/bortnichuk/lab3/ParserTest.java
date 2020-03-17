@@ -9,16 +9,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTest {
 
-    WindowParser windowParser = new WindowParser();
+    WindowParser windowParser = WindowParser.getInstance();
 
     @Test
     public void testParse(){
 
         String data = "    1    2 3   4    blue";
 
-        Window expected = new Window(4, 1, 2, 3, "blue");
+        Window expected = Window.builder()
+                .left(4)
+                .top(1)
+                .right(2)
+                .bottom(3)
+                .color("blue")
+                .build();
 
-        assertEquals(expected, windowParser.parse(data));
+        assertEquals(expected, windowParser.parseWindow(data));
 
     }
 
@@ -26,14 +32,14 @@ public class ParserTest {
     public void testIncorrectNumber(){
         String data = "  blue  1    2 3   4 ";
 
-        assertThrows(NumberFormatException.class, () -> windowParser.parse(data));
+        assertThrows(NumberFormatException.class, () -> windowParser.parseWindow(data));
     }
 
     @Test
     public void testIncorrectInput(){
         String data = " 1 2 3 4 5 6 red 1 2 89 3 5 blue";
 
-        assertThrows(IncorrectInputException.class, () -> windowParser.parse(data));
+        assertThrows(IncorrectInputException.class, () -> windowParser.parseWindow(data));
     }
 
 }

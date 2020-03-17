@@ -62,7 +62,7 @@ public class WindowReflectionTest {
 
         int actual = window.getClass().getDeclaredMethods().length;
 
-        assertEquals(24, actual);
+        assertEquals(26, actual);
 
     }
 
@@ -77,7 +77,7 @@ public class WindowReflectionTest {
 
         String superClass = textWindow.getClass().getSuperclass().getSimpleName();
 
-        assertEquals("Window", superClass);
+        assertEquals("Object", superClass);
     }
 
     @Test

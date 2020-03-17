@@ -18,6 +18,8 @@ public class Window implements IWindow {
     private int right;
     private int bottom;
     private String color;
+    
+    private TextWindow textWindow;
 
     @MyAnnotation
     public boolean isQuadratic(){

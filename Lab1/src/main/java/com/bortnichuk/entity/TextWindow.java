@@ -5,10 +5,10 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
+@Builder
 
-public class TextWindow extends Window {
+public class TextWindow {
 
     String text;
     String textColor;

@@ -2,6 +2,7 @@ package com.bortnichuk.lab3;
 
 import com.bortnichuk.controller.WindowController;
 import com.bortnichuk.dao.WindowDao;
+import com.bortnichuk.entity.TextWindow;
 import com.bortnichuk.entity.Window;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,8 +43,12 @@ public class ControllerTest {
 
     @Test
     public void testAddingWindow(){
-        String input = " 23 40 23 40 blue ";
-        windowController.saveWindow(input);
+        String windowInput = " 23 40 23 40 blue ";
+        Window window = windowController.getWindow(windowInput);
+        String textInput = " Happy Birthday!_blue ";
+        TextWindow textWindow = windowController.getTextWindow(textInput);
+        windowController.save(window, textWindow);
+
         verify(windowDao).addWindow(getWindowsList().get(0));
     }
 
@@ -56,6 +61,7 @@ public class ControllerTest {
                         .right(40)
                         .bottom(23)
                         .left(40)
+                        .textWindow(getTextWindows().get(0))
                         .build()
         );
 
@@ -66,10 +72,24 @@ public class ControllerTest {
                         .right(60)
                         .bottom(60)
                         .left(60)
+                        .textWindow(getTextWindows().get(0))
                         .build()
         );
 
         return windows;
+    }
+
+    private List<TextWindow> getTextWindows(){
+        List<TextWindow> textWindows = new ArrayList<>();
+
+        textWindows.add(
+                TextWindow.builder()
+                .text("Happy Birthday!")
+                .textColor("blue")
+                .build()
+        );
+
+        return textWindows;
     }
 
 }
