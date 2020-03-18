@@ -22,8 +22,8 @@ public class ParserTest {
                 .top(1)
                 .right(2)
                 .bottom(3)
-                .color("blue")
                 .build();
+        expected.setColor("blue");
 
         assertEquals(expected, windowParser.parseWindow(data));
 

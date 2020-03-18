@@ -1,19 +1,23 @@
 package com.bortnichuk.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CircleWindow implements IWindow {
+public class CircleWindow extends IWindow {
 
     private int radius;
-    private String color;
-    private TextWindow textWindow;
+
+    public CircleWindow(CircleWindow target) {
+        super(target);
+        if(target != null){
+            this.radius = target.radius;
+        }
+    }
 
     @Override
     public double getLength() {
@@ -25,20 +29,24 @@ public class CircleWindow implements IWindow {
         return Math.PI * radius * radius;
     }
 
-    @Override
-    public void changeColor(String color) {
-        this.color = color;
-    }
 
     @Override
     public void show() {
         System.out.println("*************************");
+        System.out.println("Object: " + this);
         System.out.println("Window type: Circle");
-        System.out.println("color: " + this.color);
+        System.out.println("color: " + this.getColor());
         System.out.println("size:");
         System.out.println("radius: " + this.radius);
-        System.out.println("text: " + this.textWindow.getText());
-        System.out.println("\tcolor: " + this.textWindow.getTextColor());
+        System.out.println("text: " + this.getTextWindow().getText());
+        System.out.println("\tcolor: " + this.getTextWindow().getTextColor());
         System.out.println("*************************");
     }
+
+    @Override
+    public IWindow clone() {
+        return new CircleWindow(this);
+    }
+
+
 }

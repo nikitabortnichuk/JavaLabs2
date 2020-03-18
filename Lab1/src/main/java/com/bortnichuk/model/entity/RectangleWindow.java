@@ -3,20 +3,29 @@ package com.bortnichuk.model.entity;
 import com.bortnichuk.model.annotation.MyAnnotation;
 import lombok.*;
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 
-public class RectangleWindow implements IWindow {
+public class RectangleWindow extends IWindow {
 
     private int left;
     private int top;
     private int right;
     private int bottom;
-    private String color;
 
-    private TextWindow textWindow;
+    public RectangleWindow(RectangleWindow target){
+        super(target);
+        if(target != null){
+            this.left = target.left;
+            this.top = target.top;
+            this.right = target.right;
+            this.bottom = target.bottom;
+        }
+    }
 
     @MyAnnotation
     public boolean isQuadratic(){
@@ -27,18 +36,14 @@ public class RectangleWindow implements IWindow {
         return left == right && bottom == top;
     }
 
-    public void changeColor(String newColor){
-        color = newColor;
-    }
-
     @MyAnnotation
     public void changeColorToBlue(){
-        color = "blue";
+        this.setColor("blue");
     }
 
     @MyAnnotation
     public void changeColorToRed(){
-        color = "red";
+        this.setColor("red");
     }
 
     public double getLength(){
@@ -58,15 +63,21 @@ public class RectangleWindow implements IWindow {
 
     public void show(){
         System.out.println("*************************");
+        System.out.println("Object: " + this);
         System.out.println("Window type: Rectangle");
-        System.out.println("color: " + this.color);
+        System.out.println("color: " + this.getColor());
         System.out.println("size:");
         System.out.println("top: " + this.top);
         System.out.println("right: " + this.right);
         System.out.println("bottom: " + this.bottom);
         System.out.println("left: " + this.left);
-        System.out.println("text: " + this.textWindow.getText());
-        System.out.println("\tcolor: " + this.textWindow.getTextColor());
+        System.out.println("text: " + this.getTextWindow().getText());
+        System.out.println("\tcolor: " + this.getTextWindow().getTextColor());
         System.out.println("*************************");
+    }
+
+    @Override
+    public IWindow clone() {
+        return new RectangleWindow(this);
     }
 }

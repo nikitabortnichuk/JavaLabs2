@@ -6,9 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
+import javax.print.DocFlavor;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RectangleWindowMethodsTest {
+public class WindowMethodsTest {
 
     private RectangleWindow window;
     private TextWindow textWindow;
@@ -138,13 +140,15 @@ public class RectangleWindowMethodsTest {
     }
 
     private RectangleWindow createWindow() {
-        return RectangleWindow.builder()
+
+        RectangleWindow window = RectangleWindow.builder()
                 .left(8)
                 .top(6)
                 .right(8)
                 .bottom(6)
-                .color("white")
                 .build();
+        window.setColor("white");
+        return window;
     }
 
 }

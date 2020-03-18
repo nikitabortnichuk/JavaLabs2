@@ -13,12 +13,14 @@ public class RectangleWindowParser extends WindowParser {
         if (parameters.length != 5){
             throw new IncorrectInputException("INCORRECT INPUT! Number of parameters must be 5!");
         }
-        return RectangleWindow.builder()
+        RectangleWindow window = RectangleWindow.builder()
                 .top(parseInt(parameters[0]))
                 .right(parseInt(parameters[1]))
                 .bottom(parseInt(parameters[2]))
                 .left(parseInt(parameters[3]))
-                .color(parameters[4])
                 .build();
+
+        window.setColor(parameters[4]);
+        return window;
     }
 }

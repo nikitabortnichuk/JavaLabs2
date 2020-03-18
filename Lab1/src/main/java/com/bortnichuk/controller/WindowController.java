@@ -1,27 +1,23 @@
 package com.bortnichuk.controller;
 
-import com.bortnichuk.dao.WindowDao;
 import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.model.entity.TextWindow;
-import com.bortnichuk.model.entity.RectangleWindow;
 import com.bortnichuk.model.exception.IncorrectInputException;
-import com.bortnichuk.service.CircleWindowParser;
-import com.bortnichuk.service.RectangleWindowParser;
-import com.bortnichuk.service.WindowParser;
-import com.bortnichuk.service.WindowService;
+import com.bortnichuk.service.*;
+import com.bortnichuk.service.proxy.Proxy;
 
 import java.util.List;
 
 public class WindowController {
 
-    private WindowService windowService;
+    private WindowService proxy;
 
     public WindowController(){
-        windowService = new WindowService();
+        proxy = new Proxy();
     }
 
     public List<IWindow> getWindows() {
-        return windowService.getWindows();
+        return proxy.getWindows();
     }
 
     public IWindow getWindow(String windowInput, int number) {
@@ -43,15 +39,11 @@ public class WindowController {
         return WindowParser.parseTextWindow(textWindowInput);
     }
 
-    public IWindow save(IWindow window, TextWindow textWindow) {
-        return windowService.save(window, textWindow);
-    }
-
     public void deleteLast() {
-        windowService.deleteLast();
+        proxy.deleteLast();
     }
 
     public IWindow save(IWindow window) {
-        return windowService.save(window);
+        return proxy.save(window);
     }
 }

@@ -7,6 +7,7 @@ import com.bortnichuk.controller.command.PasteWindowCommand;
 import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.model.entity.TextWindow;
 import com.bortnichuk.model.exception.IncorrectInputException;
+import com.bortnichuk.service.proxy.Proxy;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import java.util.Scanner;
 public class WindowView {
 
     private WindowController windowController = new WindowController();
+
     private Scanner scanner = new Scanner(System.in);
 
     @Getter
@@ -116,9 +118,10 @@ public class WindowView {
     private void saveWindow(int number){
         IWindow window = windowController.getWindow(getWindowInput(number), number);
         TextWindow textWindow = windowController.getTextWindow(getTextWindowInput());
-        currentWindow = windowController.save(window, textWindow);
-        saveMessage();
-        showWindow(currentWindow);
+        window.setTextWindow(textWindow);
+        saveWindow(window);
+
+        showWindow(window);
     }
 
     private void shapeMenu() {
@@ -184,9 +187,6 @@ public class WindowView {
         System.out.println("Enter color of the text on window");
     }
 
-    private void saveMessage() {
-        System.out.println("Window was successfully saved");
-    }
 
     private void showWindow(IWindow window) {
         window.show();

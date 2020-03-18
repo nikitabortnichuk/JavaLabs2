@@ -14,9 +14,10 @@ public class CircleWindowParser extends WindowParser {
         if (parameters.length != 2){
             throw new IncorrectInputException("INCORRECT INPUT! Number of parameters must be 2!");
         }
-        return CircleWindow.builder()
+        CircleWindow window = CircleWindow.builder()
                 .radius(parseInt(parameters[0]))
-                .color(parameters[1])
                 .build();
+        window.setColor(parameters[1]);
+        return window;
     }
 }

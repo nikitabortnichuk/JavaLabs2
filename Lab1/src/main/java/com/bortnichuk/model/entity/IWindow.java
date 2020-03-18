@@ -1,18 +1,32 @@
 package com.bortnichuk.model.entity;
 
-public interface IWindow {
+import lombok.*;
 
-    String getColor();
-    void setColor(String color);
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+public abstract class IWindow {
 
-    void setTextWindow(TextWindow textWindow);
-    TextWindow getTextWindow();
+    private String color;
+    private TextWindow textWindow;
 
+    public abstract double getLength();
+    public abstract double getSquare();
 
-    double getLength();
-    double getSquare();
+    public void changeColor(String color){
+        this.color = color;
+    }
 
-    void changeColor(String color);
+    public abstract void show();
 
-    void show();
+    public IWindow(IWindow target){
+        if(target != null){
+            this.color = target.color;
+            this.textWindow = target.textWindow;
+        }
+    }
+
+    public abstract IWindow clone();
 }

@@ -1,5 +1,6 @@
 package com.bortnichuk.controller.command;
 
+import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.view.WindowView;
 
 public class CutWindowCommand extends Command {
@@ -13,7 +14,10 @@ public class CutWindowCommand extends Command {
         if(view.getCurrentWindow() == null) return false;
 
         backup();
-        view.setWindowBackUp(view.getCurrentWindow());
+
+        IWindow clonedWindow = view.getCurrentWindow().clone();
+        view.setWindowBackUp(clonedWindow);
+
         view.deleteLastWindow();
 
         return true;
