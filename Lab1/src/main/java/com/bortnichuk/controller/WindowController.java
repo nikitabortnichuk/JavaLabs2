@@ -1,58 +1,57 @@
 package com.bortnichuk.controller;
 
 import com.bortnichuk.dao.WindowDao;
-import com.bortnichuk.entity.TextWindow;
-import com.bortnichuk.entity.Window;
-import com.bortnichuk.parser.WindowParser;
+import com.bortnichuk.model.entity.IWindow;
+import com.bortnichuk.model.entity.TextWindow;
+import com.bortnichuk.model.entity.RectangleWindow;
+import com.bortnichuk.model.exception.IncorrectInputException;
+import com.bortnichuk.service.CircleWindowParser;
+import com.bortnichuk.service.RectangleWindowParser;
+import com.bortnichuk.service.WindowParser;
+import com.bortnichuk.service.WindowService;
 
 import java.util.List;
 
 public class WindowController {
 
-    private WindowParser parser;
-    private WindowDao dao;
+    private WindowService windowService;
 
     public WindowController(){
-        parser = WindowParser.getInstance();
-        dao = new WindowDao();
+        windowService = new WindowService();
     }
 
-    public WindowController(WindowDao windowDao){
-        parser = WindowParser.getInstance();
-        dao = windowDao;
+    public List<IWindow> getWindows() {
+        return windowService.getWindows();
     }
 
-    public Window getWindow(String input){
-        return parser.parseWindow(input);
+    public IWindow getWindow(String windowInput, int number) {
+        WindowParser windowParser;
+        switch (number){
+            case 1:
+                windowParser = new RectangleWindowParser();
+                break;
+            case 2:
+                windowParser = new CircleWindowParser();
+                break;
+            default:
+                throw new IncorrectInputException("Wrong input!");
+        }
+        return windowParser.parseWindow(windowInput);
     }
 
-    public Window save(Window window, TextWindow textWindow) {
-        window.setTextWindow(textWindow);
-        dao.addWindow(window);
-        return window;
+    public TextWindow getTextWindow(String textWindowInput) {
+        return WindowParser.parseTextWindow(textWindowInput);
     }
 
-    public Window save(Window window){
-        dao.addWindow(window);
-        return window;
+    public IWindow save(IWindow window, TextWindow textWindow) {
+        return windowService.save(window, textWindow);
     }
 
-    public void delete(Window window){
-        dao.deleteWindow(window);
+    public void deleteLast() {
+        windowService.deleteLast();
     }
 
-    public void deleteLast(){
-        List<Window> list = dao.getWindowList();
-        list.remove(list.size() - 1);
+    public IWindow save(IWindow window) {
+        return windowService.save(window);
     }
-
-    public TextWindow getTextWindow(String input){
-        return parser.parseTextWindow(input);
-    }
-
-
-    public List<Window> getWindows(){
-        return dao.getWindowList();
-    }
-
 }

@@ -1,16 +1,16 @@
 package com.bortnichuk;
 
-import com.bortnichuk.entity.TextWindow;
-import com.bortnichuk.entity.Window;
+import com.bortnichuk.model.entity.TextWindow;
+import com.bortnichuk.model.entity.RectangleWindow;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class WindowMethodsTest {
+public class RectangleWindowMethodsTest {
 
-    private Window window;
+    private RectangleWindow window;
     private TextWindow textWindow;
 
     @BeforeEach
@@ -137,8 +137,8 @@ public class WindowMethodsTest {
         return new TextWindow("Happy Valentine`s Day", "pink");
     }
 
-    private Window createWindow() {
-        return Window.builder()
+    private RectangleWindow createWindow() {
+        return RectangleWindow.builder()
                 .left(8)
                 .top(6)
                 .right(8)

@@ -1,6 +1,5 @@
 package com.bortnichuk.controller.command;
 
-import com.bortnichuk.entity.Window;
 import com.bortnichuk.view.WindowView;
 
 public class CopyWindowCommand extends Command {

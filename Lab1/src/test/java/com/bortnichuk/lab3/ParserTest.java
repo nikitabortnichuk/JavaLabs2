@@ -1,22 +1,23 @@
 package com.bortnichuk.lab3;
 
-import com.bortnichuk.entity.Window;
-import com.bortnichuk.entity.exception.IncorrectInputException;
-import com.bortnichuk.parser.WindowParser;
+import com.bortnichuk.model.entity.RectangleWindow;
+import com.bortnichuk.model.exception.IncorrectInputException;
+import com.bortnichuk.service.RectangleWindowParser;
+import com.bortnichuk.service.WindowParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTest {
 
-    WindowParser windowParser = WindowParser.getInstance();
+    WindowParser windowParser = new RectangleWindowParser();
 
     @Test
     public void testParse(){
 
         String data = "    1    2 3   4    blue";
 
-        Window expected = Window.builder()
+        RectangleWindow expected = RectangleWindow.builder()
                 .left(4)
                 .top(1)
                 .right(2)

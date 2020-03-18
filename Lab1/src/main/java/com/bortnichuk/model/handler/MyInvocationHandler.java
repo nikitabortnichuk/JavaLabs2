@@ -1,6 +1,6 @@
-package com.bortnichuk.entity.handler;
+package com.bortnichuk.model.handler;
 
-import com.bortnichuk.entity.exception.SetterCalledException;
+import com.bortnichuk.model.exception.SetterCalledException;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

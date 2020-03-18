@@ -1,6 +1,6 @@
-package com.bortnichuk.entity;
+package com.bortnichuk.model.entity;
 
-import com.bortnichuk.entity.annotation.MyAnnotation;
+import com.bortnichuk.model.annotation.MyAnnotation;
 import lombok.*;
 
 @NoArgsConstructor

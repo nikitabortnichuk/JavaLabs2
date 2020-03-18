@@ -1,24 +1,21 @@
-package com.bortnichuk.entity;
+package com.bortnichuk.model.entity;
 
-import com.bortnichuk.entity.annotation.MyAnnotation;
+import com.bortnichuk.model.annotation.MyAnnotation;
 import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 
-public class Window implements IWindow {
+public class RectangleWindow implements IWindow {
 
     private int left;
     private int top;
     private int right;
     private int bottom;
     private String color;
-    
+
     private TextWindow textWindow;
 
     @MyAnnotation
@@ -44,19 +41,11 @@ public class Window implements IWindow {
         color = "red";
     }
 
-    public int getLength(){
-        return calculateLength();
-    }
-
-    private int calculateLength(){
+    public double getLength(){
         return left + top + right + bottom;
     }
 
-    public int getSquare(){
-        return calculateSquare();
-    }
-
-    private int calculateSquare(){
+    public double getSquare(){
         if(isQuadratic()){
             return left * left;
         }
@@ -65,5 +54,19 @@ public class Window implements IWindow {
         }
         else
             throw new RuntimeException("Cannot calculate square!");
+    }
+
+    public void show(){
+        System.out.println("*************************");
+        System.out.println("Window type: Rectangle");
+        System.out.println("color: " + this.color);
+        System.out.println("size:");
+        System.out.println("top: " + this.top);
+        System.out.println("right: " + this.right);
+        System.out.println("bottom: " + this.bottom);
+        System.out.println("left: " + this.left);
+        System.out.println("text: " + this.textWindow.getText());
+        System.out.println("\tcolor: " + this.textWindow.getTextColor());
+        System.out.println("*************************");
     }
 }

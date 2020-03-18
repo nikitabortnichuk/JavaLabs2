@@ -1,13 +1,13 @@
 package com.bortnichuk.controller.command;
 
-import com.bortnichuk.entity.Window;
+import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.view.WindowView;
 
 public abstract class Command {
 
     public WindowView view;
 
-    private Window backup;
+    private IWindow backup;
 
     public Command(WindowView windowView){
         this.view = windowView;

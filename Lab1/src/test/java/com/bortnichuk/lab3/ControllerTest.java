@@ -2,8 +2,10 @@ package com.bortnichuk.lab3;
 
 import com.bortnichuk.controller.WindowController;
 import com.bortnichuk.dao.WindowDao;
-import com.bortnichuk.entity.TextWindow;
-import com.bortnichuk.entity.Window;
+import com.bortnichuk.model.entity.IWindow;
+import com.bortnichuk.model.entity.TextWindow;
+import com.bortnichuk.model.entity.RectangleWindow;
+import com.bortnichuk.service.WindowService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,11 +25,11 @@ public class ControllerTest {
     @Mock
     private WindowDao windowDao;
 
-    private WindowController windowController;
+    private WindowService windowService;
 
     @BeforeEach
     void init(){
-        windowController = new WindowController(windowDao);
+        windowService = new WindowService(windowDao);
     }
 
     @Test
@@ -35,27 +37,29 @@ public class ControllerTest {
 
         when(windowDao.getWindowList()).thenReturn(getWindowsList());
 
-        List<Window> expected = getWindowsList();
-        List<Window> actual = windowController.getWindows();
+        List<IWindow> expected = getWindowsList();
+        List<IWindow> actual = windowService.getWindows();
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void testAddingWindow(){
+        WindowController windowController = new WindowController();
         String windowInput = " 23 40 23 40 blue ";
-        Window window = windowController.getWindow(windowInput);
+        int rectangleInput = 1;
+        RectangleWindow window = (RectangleWindow) windowController.getWindow(windowInput, rectangleInput);
         String textInput = " Happy Birthday!_blue ";
         TextWindow textWindow = windowController.getTextWindow(textInput);
-        windowController.save(window, textWindow);
+        windowService.save(window, textWindow);
 
         verify(windowDao).addWindow(getWindowsList().get(0));
     }
 
-    private List<Window> getWindowsList() {
-        List<Window> windows = new ArrayList<>();
+    private List<IWindow> getWindowsList() {
+        List<IWindow> windows = new ArrayList<>();
         windows.add(
-                Window.builder()
+                RectangleWindow.builder()
                         .color("blue")
                         .top(23)
                         .right(40)
@@ -66,7 +70,7 @@ public class ControllerTest {
         );
 
         windows.add(
-                Window.builder()
+                RectangleWindow.builder()
                         .color("red")
                         .top(60)
                         .right(60)

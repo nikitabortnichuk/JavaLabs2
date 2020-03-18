@@ -1,4 +1,4 @@
-package com.bortnichuk.entity.exception;
+package com.bortnichuk.model.exception;
 
 public class IncorrectInputException extends RuntimeException {
 

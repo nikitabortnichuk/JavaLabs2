@@ -4,7 +4,7 @@ import com.bortnichuk.view.WindowView;
 
 public class Main {
     public static void main(String[] args) {
-        WindowView view = new WindowView();
+        WindowView view = WindowView.getInstance();
 
         view.input();
     }

@@ -4,9 +4,9 @@ import com.bortnichuk.controller.WindowController;
 import com.bortnichuk.controller.command.CopyWindowCommand;
 import com.bortnichuk.controller.command.CutWindowCommand;
 import com.bortnichuk.controller.command.PasteWindowCommand;
-import com.bortnichuk.entity.TextWindow;
-import com.bortnichuk.entity.Window;
-import com.bortnichuk.entity.exception.IncorrectInputException;
+import com.bortnichuk.model.entity.IWindow;
+import com.bortnichuk.model.entity.TextWindow;
+import com.bortnichuk.model.exception.IncorrectInputException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,20 +15,31 @@ import java.util.Scanner;
 
 public class WindowView {
 
-    private WindowController windowController;
-    private Scanner scanner;
+    private WindowController windowController = new WindowController();
+    private Scanner scanner = new Scanner(System.in);
 
     @Getter
     @Setter
-    private Window windowBackUp;
+    private IWindow windowBackUp;
 
     @Getter
     @Setter
-    private Window currentWindow;
+    private IWindow currentWindow;
 
-    public WindowView() {
-        windowController = new WindowController();
-        scanner = new Scanner(System.in);
+    private static WindowView instance;
+
+    private WindowView() {
+    }
+
+    public static WindowView getInstance(){
+        if(instance == null){
+            synchronized (WindowView.class) {
+                if (instance == null) {
+                    instance = new WindowView();
+                }
+            }
+        }
+        return instance;
     }
 
     public void input() {
@@ -44,8 +55,7 @@ public class WindowView {
                 case 2:
                     try {
                         saveWindowFromInput();
-                    }
-                    catch (IncorrectInputException e){
+                    } catch (IncorrectInputException e) {
                         System.out.println(e.getMessage());
                         break;
                     }
@@ -79,8 +89,9 @@ public class WindowView {
         );
     }
 
+
     private void showAllWindows() {
-        List<Window> windowList = windowController.getWindows();
+        List<IWindow> windowList = windowController.getWindows();
         if (windowList.isEmpty()) {
             System.out.println("There is no windows!");
         } else {
@@ -90,35 +101,58 @@ public class WindowView {
 
     private void saveWindowFromInput() {
 
-        Window window = windowController.getWindow(getWindowInput());
+        int number;
+        do {
+            shapeMenu();
+            number = scanner.nextInt();
+            if(number == 0) break;
 
+            saveWindow(number);
+
+        } while (number != 1 && number != 2);
+
+    }
+
+    private void saveWindow(int number){
+        IWindow window = windowController.getWindow(getWindowInput(number), number);
         TextWindow textWindow = windowController.getTextWindow(getTextWindowInput());
-
         currentWindow = windowController.save(window, textWindow);
-
         saveMessage();
-        showWindow(window);
+        showWindow(currentWindow);
+    }
+
+    private void shapeMenu() {
+        System.out.println("Enter shape of window:\n" +
+                "1. Rectangle\n" +
+                "2. Circle\n" +
+                "0. back");
     }
 
 
-    public void deleteLastWindow(){
+    public void deleteLastWindow() {
         windowController.deleteLast();
     }
 
-    public void saveWindow(Window window){
+    public void saveWindow(IWindow window) {
         currentWindow = windowController.save(window);
     }
 
-    private String getWindowInput(){
+    private String getWindowInput(int number) {
         enterWindowColorMessage();
         String colorInput = scanner.next();
-        enterWindowParametersMessage();
+        if(number == 1) {
+            enterRectangleWindowParametersMessage();
+        }
+        else if(number == 2){
+            enterCircleWindowParametersMessage();
+        }
+
         String dataInput = scanner.useDelimiter("\n").next();
 
         return dataInput + " " + colorInput;
     }
 
-    private String getTextWindowInput(){
+    private String getTextWindowInput() {
         enterTextOnWindowMessage();
         scanner.nextLine();
         String textInput = scanner.nextLine();
@@ -134,15 +168,19 @@ public class WindowView {
         System.out.println("Enter window color: ");
     }
 
-    private void enterWindowParametersMessage() {
+    private void enterRectangleWindowParametersMessage() {
         System.out.println("Enter window size parameters separated by space in the following sequence: top right bottom left");
     }
 
-    private void enterTextOnWindowMessage(){
+    private void enterCircleWindowParametersMessage() {
+        System.out.println("Enter window radius:");
+    }
+
+    private void enterTextOnWindowMessage() {
         System.out.println("Enter text on window: ");
     }
 
-    private void enterColorOfTextOnWindowMessage(){
+    private void enterColorOfTextOnWindowMessage() {
         System.out.println("Enter color of the text on window");
     }
 
@@ -150,19 +188,9 @@ public class WindowView {
         System.out.println("Window was successfully saved");
     }
 
-    private void showWindow(Window window) {
-        System.out.println("*************************");
-        System.out.println("color: " + window.getColor());
-        System.out.println("size:");
-        System.out.println("top: " + window.getTop());
-        System.out.println("right: " + window.getRight());
-        System.out.println("bottom: " + window.getBottom());
-        System.out.println("left: " + window.getLeft());
-        System.out.println("text: " + window.getTextWindow().getText());
-        System.out.println("\tcolor: " + window.getTextWindow().getTextColor());
-        System.out.println("*************************");
+    private void showWindow(IWindow window) {
+        window.show();
     }
-
 
 
 }
