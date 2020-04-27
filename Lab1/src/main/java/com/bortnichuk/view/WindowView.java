@@ -5,9 +5,7 @@ import com.bortnichuk.controller.command.CopyWindowCommand;
 import com.bortnichuk.controller.command.CutWindowCommand;
 import com.bortnichuk.controller.command.PasteWindowCommand;
 import com.bortnichuk.model.entity.IWindow;
-import com.bortnichuk.model.entity.TextWindow;
 import com.bortnichuk.model.exception.IncorrectInputException;
-import com.bortnichuk.service.proxy.Proxy;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -109,16 +107,20 @@ public class WindowView {
             number = scanner.nextInt();
             if(number == 0) break;
 
-            saveWindow(number);
+            try {
+                saveWindow(number);
+            }
+            catch (IncorrectInputException e){
+                System.out.println(e.getMessage());
+                break;
+            }
 
         } while (number != 1 && number != 2);
 
     }
 
     private void saveWindow(int number){
-        IWindow window = windowController.getWindow(getWindowInput(number), number);
-        TextWindow textWindow = windowController.getTextWindow(getTextWindowInput());
-        window.setTextWindow(textWindow);
+        IWindow window = windowController.createWindow(getWindowInput(number), getTextWindowInput(), number);
         saveWindow(window);
 
         showWindow(window);
@@ -149,6 +151,8 @@ public class WindowView {
         else if(number == 2){
             enterCircleWindowParametersMessage();
         }
+        else
+            throw new IncorrectInputException("Wrong input!");
 
         String dataInput = scanner.useDelimiter("\n").next();
 

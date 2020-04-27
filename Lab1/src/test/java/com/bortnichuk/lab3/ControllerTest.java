@@ -1,14 +1,11 @@
 package com.bortnichuk.lab3;
 
 import com.bortnichuk.controller.WindowController;
-import com.bortnichuk.dao.WindowDao;
-import com.bortnichuk.model.entity.IWindow;
-import com.bortnichuk.model.entity.TextWindow;
-import com.bortnichuk.model.entity.RectangleWindow;
-import com.bortnichuk.service.WindowServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
+import com.bortnichuk.model.entity.*;
+import com.bortnichuk.service.WindowService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -23,54 +20,36 @@ import static org.mockito.Mockito.when;
 public class ControllerTest {
 
     @Mock
-    private WindowDao windowDao;
+    private WindowService windowService;
 
-    private WindowServiceImpl windowServiceImpl;
-
-    @BeforeEach
-    void init(){
-        windowServiceImpl = new WindowServiceImpl(windowDao);
-    }
+    @InjectMocks
+    private WindowController windowController;
 
     @Test
     public void returnAllWindows(){
 
-        when(windowDao.getWindowList()).thenReturn(getWindowsList());
+        when(windowService.getWindows()).thenReturn(getWindowsList());
 
         List<IWindow> expected = getWindowsList();
-        List<IWindow> actual = windowServiceImpl.getWindows();
+        List<IWindow> actual = windowController.getWindows();
 
         assertEquals(expected, actual);
     }
 
     @Test
     public void testAddingWindow(){
-        WindowController windowController = new WindowController();
-        String windowInput = " 23 40 23 40 blue ";
-        int rectangleInput = 1;
-        RectangleWindow window = (RectangleWindow) windowController.getWindow(windowInput, rectangleInput);
-        String textInput = " Happy Birthday!_blue ";
-        TextWindow textWindow = windowController.getTextWindow(textInput);
-        window.setTextWindow(textWindow);
-        windowServiceImpl.save(window);
-
-        verify(windowDao).addWindow(getWindowsList().get(0));
-    }
-
-    @Test
-    public void testAddingProxyWindow(){
-        WindowController windowController = new WindowController();
 
         String windowInput = " 23 40 23 40 blue ";
         int rectangleInput = 1;
-        RectangleWindow window = (RectangleWindow) windowController.getWindow(windowInput, rectangleInput);
+        RectangleWindow window = (RectangleWindow) windowController.parseWindow(windowInput, rectangleInput);
         String textInput = " Happy Birthday!_blue ";
-        TextWindow textWindow = windowController.getTextWindow(textInput);
+        TextWindow textWindow = windowController.parseTextWindow(textInput);
         window.setTextWindow(textWindow);
-        windowServiceImpl.save(window);
+        windowController.save(window);
 
-        verify(windowDao).addWindow(getWindowsList().get(0));
+        verify(windowService).save(getWindowsList().get(0));
     }
+
 
     private List<IWindow> getWindowsList() {
         List<IWindow> windows = new ArrayList<>();

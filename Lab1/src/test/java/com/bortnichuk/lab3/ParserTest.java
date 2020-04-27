@@ -2,8 +2,8 @@ package com.bortnichuk.lab3;
 
 import com.bortnichuk.model.entity.RectangleWindow;
 import com.bortnichuk.model.exception.IncorrectInputException;
-import com.bortnichuk.service.RectangleWindowParser;
-import com.bortnichuk.service.WindowParser;
+import com.bortnichuk.service.factoryMethod.RectangleWindowParser;
+import com.bortnichuk.service.factoryMethod.WindowParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
