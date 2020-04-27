@@ -1,4 +1,4 @@
-package com.bortnichuk.service;
+package com.bortnichuk.service.factoryMethod;
 
 import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.model.entity.RectangleWindow;

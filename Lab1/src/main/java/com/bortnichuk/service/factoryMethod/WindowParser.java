@@ -1,11 +1,8 @@
-package com.bortnichuk.service;
+package com.bortnichuk.service.factoryMethod;
 
 import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.model.entity.TextWindow;
-import com.bortnichuk.model.entity.RectangleWindow;
 import com.bortnichuk.model.exception.IncorrectInputException;
-
-import static java.lang.Integer.parseInt;
 
 public abstract class WindowParser {
 

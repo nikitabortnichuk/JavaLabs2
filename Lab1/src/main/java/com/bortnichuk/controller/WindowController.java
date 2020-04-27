@@ -4,6 +4,9 @@ import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.model.entity.TextWindow;
 import com.bortnichuk.model.exception.IncorrectInputException;
 import com.bortnichuk.service.*;
+import com.bortnichuk.service.factoryMethod.CircleWindowParser;
+import com.bortnichuk.service.factoryMethod.RectangleWindowParser;
+import com.bortnichuk.service.factoryMethod.WindowParser;
 import com.bortnichuk.service.proxy.Proxy;
 
 import java.util.List;
@@ -20,7 +23,15 @@ public class WindowController {
         return proxy.getWindows();
     }
 
-    public IWindow getWindow(String windowInput, int number) {
+    public IWindow createWindow(String windowInput, String textWindowInput, int number){
+        IWindow window = parseWindow(windowInput, number);
+        TextWindow textWindow = parseTextWindow(textWindowInput);
+        window.setTextWindow(textWindow);
+
+        return window;
+    }
+
+    public IWindow parseWindow(String windowInput, int number) {
         WindowParser windowParser;
         switch (number){
             case 1:
@@ -32,10 +43,11 @@ public class WindowController {
             default:
                 throw new IncorrectInputException("Wrong input!");
         }
+
         return windowParser.parseWindow(windowInput);
     }
 
-    public TextWindow getTextWindow(String textWindowInput) {
+    public TextWindow parseTextWindow(String textWindowInput) {
         return WindowParser.parseTextWindow(textWindowInput);
     }
 
