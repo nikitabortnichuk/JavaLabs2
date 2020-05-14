@@ -23,6 +23,14 @@ public class WindowController {
         return proxy.getWindows();
     }
 
+    public void deleteLast() {
+        proxy.deleteLast();
+    }
+
+    public IWindow save(IWindow window) {
+        return proxy.save(window);
+    }
+
     public IWindow createWindow(String windowInput, String textWindowInput, int number){
         IWindow window = parseWindow(windowInput, number);
         TextWindow textWindow = parseTextWindow(textWindowInput);
@@ -51,11 +59,4 @@ public class WindowController {
         return WindowParser.parseTextWindow(textWindowInput);
     }
 
-    public void deleteLast() {
-        proxy.deleteLast();
-    }
-
-    public IWindow save(IWindow window) {
-        return proxy.save(window);
-    }
 }
