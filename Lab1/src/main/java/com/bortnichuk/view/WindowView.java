@@ -14,7 +14,11 @@ import java.util.Scanner;
 
 public class WindowView {
 
-    private WindowController windowController = new WindowController();
+    private WindowController windowController;
+
+    public WindowView(WindowController windowController){
+        this.windowController = windowController;
+    }
 
     private Scanner scanner = new Scanner(System.in);
 
@@ -25,22 +29,6 @@ public class WindowView {
     @Getter
     @Setter
     private IWindow currentWindow;
-
-    private static WindowView instance;
-
-    private WindowView() {
-    }
-
-    public static WindowView getInstance(){
-        if(instance == null){
-            synchronized (WindowView.class) {
-                if (instance == null) {
-                    instance = new WindowView();
-                }
-            }
-        }
-        return instance;
-    }
 
     public void input() {
         WindowView view = this;

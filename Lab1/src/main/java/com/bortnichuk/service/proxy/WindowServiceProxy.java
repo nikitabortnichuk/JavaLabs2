@@ -3,12 +3,22 @@ package com.bortnichuk.service.proxy;
 import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.service.WindowService;
 import com.bortnichuk.service.WindowServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class Proxy implements WindowService {
+@Service
+public class WindowServiceProxy implements WindowService {
 
-    WindowService windowService = new WindowServiceImpl();
+    private WindowService windowService;
+
+    @Autowired
+    public WindowServiceProxy(@Qualifier("windowServiceImpl") WindowService windowService) {
+        this.windowService = windowService;
+    }
+
 
     @Override
     public List<IWindow> getWindows() {

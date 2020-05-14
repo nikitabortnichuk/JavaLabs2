@@ -3,32 +3,28 @@ package com.bortnichuk.controller;
 import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.model.entity.TextWindow;
 import com.bortnichuk.model.exception.IncorrectInputException;
-import com.bortnichuk.service.*;
-import com.bortnichuk.service.factoryMethod.CircleWindowParser;
-import com.bortnichuk.service.factoryMethod.RectangleWindowParser;
+import com.bortnichuk.service.WindowService;
 import com.bortnichuk.service.factoryMethod.WindowParser;
-import com.bortnichuk.service.proxy.Proxy;
+import com.bortnichuk.service.factoryMethod.WindowParserFactory;
+import lombok.Setter;
 
 import java.util.List;
 
 public class WindowController {
 
-    private WindowService proxy;
-
-    public WindowController(){
-        proxy = new Proxy();
-    }
+    @Setter
+    private WindowService service;
 
     public List<IWindow> getWindows() {
-        return proxy.getWindows();
+        return service.getWindows();
     }
 
     public void deleteLast() {
-        proxy.deleteLast();
+        service.deleteLast();
     }
 
     public IWindow save(IWindow window) {
-        return proxy.save(window);
+        return service.save(window);
     }
 
     public IWindow createWindow(String windowInput, String textWindowInput, int number){
@@ -40,19 +36,23 @@ public class WindowController {
     }
 
     public IWindow parseWindow(String windowInput, int number) {
+        WindowParser windowParser = getWindowParser(number);
+        return windowParser.parseWindow(windowInput);
+    }
+
+    public static WindowParser getWindowParser(int number){
         WindowParser windowParser;
         switch (number){
             case 1:
-                windowParser = new RectangleWindowParser();
+                windowParser = WindowParserFactory.getRectangleWindowParser();
                 break;
             case 2:
-                windowParser = new CircleWindowParser();
+                windowParser = WindowParserFactory.getCircleWindowParser();
                 break;
             default:
                 throw new IncorrectInputException("Wrong input!");
         }
-
-        return windowParser.parseWindow(windowInput);
+        return windowParser;
     }
 
     public TextWindow parseTextWindow(String textWindowInput) {

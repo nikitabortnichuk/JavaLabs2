@@ -1,20 +1,15 @@
 package com.bortnichuk.service;
 
-import com.bortnichuk.controller.WindowController;
 import com.bortnichuk.dao.WindowDao;
 import com.bortnichuk.model.entity.IWindow;
-import com.bortnichuk.model.entity.TextWindow;
-import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class WindowServiceImpl implements WindowService {
 
-    private WindowDao windowDao;
-
-    public WindowServiceImpl() {
-        windowDao = new WindowDao();
-    }
+    private final WindowDao windowDao;
 
     public WindowServiceImpl(WindowDao windowDao) {
         this.windowDao = windowDao;
