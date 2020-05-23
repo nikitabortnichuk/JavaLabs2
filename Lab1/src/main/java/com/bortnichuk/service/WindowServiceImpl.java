@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class WindowServiceImpl implements WindowService {
 
-    private final WindowDao windowDao;
+    private WindowDao windowDao;
 
     public WindowServiceImpl(WindowDao windowDao) {
         this.windowDao = windowDao;

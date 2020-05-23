@@ -2,7 +2,6 @@ package com.bortnichuk.service.proxy;
 
 import com.bortnichuk.model.entity.IWindow;
 import com.bortnichuk.service.WindowService;
-import com.bortnichuk.service.WindowServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
